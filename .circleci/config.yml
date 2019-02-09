@@ -1,0 +1,43 @@
+version: 2.1
+orbs:
+  aws-s3: circleci/aws-s3@1.0.0
+
+executors:
+  my-executor:
+    docker:
+      - image: buildpack-deps:jessi
+    working_directory: ~/take-my-dog-please-frontend
+
+jobs:
+  build:
+    executor: my-executor
+    docker:
+      - image: circleci/node:8-browsers
+    steps:
+      - checkout
+      - run: npm install
+      - run: npm run build-prod
+      - persist_to_workspace:
+          root: ./
+          paths:
+            - ./dist/take-my-dog-please-frontend
+  deploy:
+    executor: my-executor
+    docker:
+      - image: circleci/python:2.7
+    steps:
+      - attach_workspace:
+          at: ~/take-my-dog-please-frontend/
+      - run: ls
+      - aws-s3/sync:
+          from: './dist/take-my-dog-please-frontend'
+          to: 's3://www.haziba.co.uk'
+          overwrite: true
+
+workflows:
+  build-and-deploy:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build

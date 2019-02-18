@@ -5,12 +5,14 @@ import { AppComponent } from './app.component';
 import { RegisterComponent } from './register/register.component';
 import { AppRoutingModule } from './app-routing.module';
 import { LandingPageComponent } from './landing-page/landing-page.component';
+import { NavComponent } from './nav/nav.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     RegisterComponent,
-    LandingPageComponent
+    LandingPageComponent,
+    NavComponent
   ],
   imports: [
     BrowserModule,

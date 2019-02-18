@@ -1,12 +1,20 @@
 <p>
   <h2>Register</h2>
 
-  <form>
+  <form [formGroup]="registerForm">
     <label for="email">Email</label>
-    <input name="email" type="email">
+    <input type="email" formControlName="email" required>
+
+    <div *ngIf="registerForm.controls.email.invalid" class="alert alert-danger">
+      Email invalid
+    </div>
 
     <label for="password">Password</label>
-    <input name="password" type="password">
+    <input type="password" formControlName="password" required>
 
-    <input type="submit" value="Register">
+    <div *ngIf="registerForm.controls.password.invalid" class="alert alert-danger">
+      Password invalid
+    </div>
+
+    <button (click)="submit()"><span>Register</span></button>
   </form>
